@@ -1,20 +1,24 @@
 package com.example.mustafa.main;
 
+import com.example.mustafa.config.AppConfig;
 import com.example.mustafa.model.User;
+import com.example.mustafa.services.LoginService;
 import com.example.mustafa.services.UserService;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.apache.catalina.filters.RemoteIpFilter;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class MainClass {
     public static void main(String[] args) {
-        UserService userService1 = new UserService();
 
-        List<User> userList = new ArrayList<>();
-        userList.add(new User("Ahmet"));
-        userList.add(new User("Mustafa"));
+        ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
+        UserService userService = context.getBean(UserService.class);
 
-        userService1.setUserList(userList);
+        for (User user : userService.getUserList()) {
+            System.out.println(user);
+        }
 
+        LoginService loginService = new LoginService();
+        loginService.login();
     }
 }
